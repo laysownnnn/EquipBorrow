@@ -76,9 +76,12 @@ function condition_badge(?string $condition): string
 {
     if (!$condition) return '<span class="text-muted">—</span>';
     $map = [
-        'Good'    => 'pill-emerald',
-        'Fair'    => 'pill-amber',
-        'Damaged' => 'pill-rose',
+        'Good'     => 'pill-emerald',
+        'Fair'     => 'pill-amber',
+        'Damaged'  => 'pill-rose',
+        'Lost'     => 'pill-rose',
+        'Retired'  => 'pill-slate',
+        'Disposed' => 'pill-slate',
     ];
     $cls = $map[$condition] ?? 'pill-slate';
     return '<span class="status-pill ' . $cls . '"><span class="dot"></span>' . e($condition) . '</span>';

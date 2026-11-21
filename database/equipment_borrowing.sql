@@ -43,7 +43,7 @@ CREATE TABLE equipment (
                                      NOT NULL DEFAULT 'Others',
     quantity_total     INT UNSIGNED  NOT NULL DEFAULT 1,       -- units owned
     quantity_available INT UNSIGNED  NOT NULL DEFAULT 1,       -- units on the shelf
-    item_condition     ENUM('Good','Fair','Damaged') NOT NULL DEFAULT 'Good',
+    item_condition     ENUM('Good','Fair','Damaged','Lost','Retired','Disposed') NOT NULL DEFAULT 'Good',
     description        TEXT          NULL,
     created_at         TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at         TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -96,9 +96,9 @@ CREATE TABLE borrow_records (
 --  Sample data
 -- ============================================================
 
--- Default login ->  username: admin   password: admin123
+-- Default login ->  username: admin   password: laysongwapo123
 INSERT INTO admins (username, password_hash, full_name) VALUES
-('admin', '$2y$10$s/Q7Qq/9JqnRMXqTKc0Si.d//cmLhb7iYucys6yUI6zPx.6pEpBUa', 'System Administrator');
+('admin', '$2y$10$n.V1ty/QYEVpSde3XBSV5O6UcAGEtlc9JEF7emn/KnRHthi8pHckK', 'System Administrator');
 
 INSERT INTO equipment (equipment_code, name, category, quantity_total, quantity_available, item_condition, description) VALUES
 ('EQ-0001', 'Epson EB-X51 Projector',     'Projector',  3, 2, 'Good', 'With HDMI and VGA cable'),

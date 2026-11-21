@@ -124,10 +124,10 @@ require 'includes/header.php';
                 </tr>
             <?php endif; ?>
 
-            <?php while ($r = $records->fetch_assoc()):
+            <?php $rowNum = 1; while ($r = $records->fetch_assoc()):
                 $isOverdue = $r['status'] === 'Borrowed' && $r['due_date'] < $today; ?>
                 <tr class="<?= $isOverdue ? 'row-overdue' : '' ?>">
-                    <td><span class="code-chip">#<?= (int)$r['borrow_id'] ?></span></td>
+                    <td><span class="code-chip">#<?= $rowNum ?></span></td>
                     <td>
                         <div class="fw-semibold"><?= e($r['full_name']) ?></div>
                         <div class="small text-muted"><?= e($r['id_number']) ?></div>
@@ -165,7 +165,7 @@ require 'includes/header.php';
                             <i class="bi bi-pencil"></i>
                         </a>
                         <form action="borrow_delete.php" method="post" class="d-inline"
-                              onsubmit="return confirm('Delete borrow record #<?= (int)$r['borrow_id'] ?>?');">
+                              onsubmit="return confirm('Delete borrow record #<?= $rowNum ?>?');">
                             <input type="hidden" name="id" value="<?= (int)$r['borrow_id'] ?>">
                             <button class="btn btn-action btn-outline-danger" title="Delete" aria-label="Delete record">
                                 <i class="bi bi-trash"></i>
@@ -173,7 +173,7 @@ require 'includes/header.php';
                         </form>
                     </td>
                 </tr>
-            <?php endwhile; ?>
+            <?php $rowNum++; endwhile; ?>
             </tbody>
         </table>
     </div>

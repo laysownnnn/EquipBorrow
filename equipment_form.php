@@ -9,7 +9,7 @@
 require_once 'includes/auth.php';
 
 $categories = ['Laptop', 'Projector', 'Audio', 'Camera', 'Sports', 'Laboratory', 'Others'];
-$conditions = ['Good', 'Fair', 'Damaged'];
+$conditions = ['Good', 'Fair', 'Damaged', 'Lost', 'Retired', 'Disposed'];
 
 $id     = (int)($_GET['id'] ?? 0);
 $isEdit = $id > 0;
@@ -50,6 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $borrowedNow = $isEdit ? ($item['quantity_total'] - $item['quantity_available']) : 0;
     if ($newTotal < $borrowedNow) {
         $errors[] = "Quantity cannot be less than $borrowedNow (units currently borrowed).";
+    }
+    if ($borrowedNow > 0 && in_array($item['item_condition'], ['Lost', 'Retired', 'Disposed'], true)) {
+        $errors[] = "Cannot mark as {$item['item_condition']} while $borrowedNow unit(s) are still borrowed.";
     }
 
     if (!$errors) {

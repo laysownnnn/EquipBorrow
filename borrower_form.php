@@ -156,7 +156,7 @@ if (!$isEdit) {
     $equipmentList = $conn->query(
         "SELECT equipment_id, equipment_code, name, quantity_available
          FROM equipment
-         WHERE quantity_available > 0 AND item_condition <> 'Damaged'
+         WHERE quantity_available > 0 AND item_condition IN ('Good', 'Fair')
          ORDER BY name"
     );
 }

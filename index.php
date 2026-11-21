@@ -10,8 +10,8 @@ require_once 'includes/auth.php';
 // ---- Summary numbers (SELECT with aggregate functions) ----
 $stats = $conn->query("
     SELECT
-        (SELECT COALESCE(SUM(quantity_total), 0)     FROM equipment) AS total_units,
-        (SELECT COALESCE(SUM(quantity_available), 0) FROM equipment) AS available_units,
+        (SELECT COALESCE(SUM(quantity_total), 0)     FROM equipment WHERE item_condition NOT IN ('Lost','Retired','Disposed')) AS total_units,
+        (SELECT COALESCE(SUM(quantity_available), 0) FROM equipment WHERE item_condition NOT IN ('Lost','Retired','Disposed')) AS available_units,
         (SELECT COUNT(*) FROM borrow_records WHERE status = 'Borrowed') AS active_borrows,
         (SELECT COUNT(*) FROM borrow_records WHERE status = 'Borrowed' AND due_date < CURDATE()) AS overdue
 ")->fetch_assoc();
@@ -164,9 +164,9 @@ require 'includes/header.php';
                             <tr><th>#</th><th>Borrower</th><th>Equipment</th><th>Date</th><th>Status</th></tr>
                         </thead>
                         <tbody>
-                        <?php while ($row = $recent->fetch_assoc()): ?>
+                        <?php $rowNum = 1; while ($row = $recent->fetch_assoc()): ?>
                             <tr>
-                                <td><span class="code-chip">#<?= (int)$row['borrow_id'] ?></span></td>
+                                <td><span class="code-chip">#<?= $rowNum++ ?></span></td>
                                 <td class="fw-medium"><?= e($row['full_name']) ?></td>
                                 <td><?= e($row['equipment_name']) ?> <span class="text-muted small">&times;<?= (int)$row['quantity'] ?></span></td>
                                 <td class="text-nowrap small text-muted"><?= nice_date($row['borrow_date']) ?></td>
